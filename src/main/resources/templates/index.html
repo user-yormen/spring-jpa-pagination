@@ -1,0 +1,80 @@
+<!--***********************************************************************-->
+<!--*********************************CONFIDENTIAL**************************-->
+<!--***********************************************************************-->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Actors</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        .pagination-centered {
+            text-align: center;
+        }
+
+        .disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        .pointer-disabled {
+            pointer-events: none;
+        }
+    </style>
+</head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Actor ID</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Last Update</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="actor,iterator : ${actors}">
+                            <td th:text="${iterator.count}">1</td>
+                            <td th:text="${actor.actorId}" th:id="actor+${actor.actorId}"></td>
+                            <td th:text="${actor.firstName}"></td>
+                            <td th:text="${actor.lastName}"></td>
+                            <td th:text="${actor.lastUpdate}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="form-group col-md-11 pagination-centered">
+                        <div class="pagination-div">
+                            <!--This will show the previous only if you move from 1-->
+                            <span th:if="${actors.hasPrevious()}">
+                                <a th:href="@{/(page=${actors.number-1},size=${actors.size})}">Previous</a>
+                            </span>
+
+                            <th:block th:each="i: ${#numbers.sequence(0, actors.totalPages - 1)}">
+                                <span th:if="${actors.number == i}" class="selected btn btn-danger">[[${i}+1]]</span>
+                                <!--Uncomment if you prefer this choice-->
+                                <!--<span th:unless="${actors.number == i}">
+                                     <a th:href="@{/(page=${i},size=${actors.size})}">[[${i}+1]]</a>
+                                </span>-->
+                            </th:block>
+                            <!--The Next will disappear when there is nothing left-->
+                            <span th:if="${actors.hasNext()}">
+                                <a th:href="@{/(page=${actors.number+1},size=${actors.size})}">Next</a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+</html>
